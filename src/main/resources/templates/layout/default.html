@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:fragment="site-head">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+	<link href="/webjars/materializecss/0.96.0/css/materialize.css" type="text/css" rel="stylesheet"
+          media="screen,projection"/>
+	<link rel="stylesheet" href="../public/css/style.css" th:href="@{/css/style.css}" />
+	<link rel="icon" href="../public/img/favicon.ico" th:href="@{/img/favicon.ico}" />
+	<meta th:include="this :: head" th:remove="tag"/>
+</head>
+<body>
+	<nav th:fragment="site-nav" class="nav-wrapper indigo large">
+		<a href="index.html" class="left" th:href="@{/}"><img src="../public/img/logo.png" th:src="@{/img/logo.png}" width="100px" /></a>
+		<ul class="left hide-on-med-and-down">
+			<li><a href="index.html" th:href="@{/}">Home</a></li>
+			<li><a href="users/login.html" sec:authorize="!isAuthenticated()" th:href="@{/login}">Login</a></li>
+			<li><a href="posts/index.html" th:href="@{/posts/}">Posts</a></li>
+			<li><a href="posts/create.html" sec:authorize="hasRole('ADMIN')" th:href="@{/posts/create}">Create Post</a></li>
+			<li><a href="users/index.html" sec:authorize="hasRole('ADMIN')" th:href="@{/users/}">Users</a></li>
+		</ul>
+		<div class="right hide-on-med-and-down" sec:authorize="isAuthenticated()"> 
+				<span>Hello, <b sec:authentication="name"></b></span>
+				<form th:action="@{/logout}" 
+							method="POST" style="display: inline-block">
+					<button id="Logout" class="btn waves-effect waves-light" type="submit" value="logout" name="logout">Logout
+  					</button>
+				</form>
+		</div>
+	</nav> 
+	
+	<main layout:fragment="content">
+		<h1>Welcome</h1>
+		<p>Welcome to the Spring MVC Blog.</p> 
+	</main>
+	
+	<footer th:fragment="site-footer" id="footer" class="page-footer indigo white-text">
+            &copy; 2018 steevIT Blog
+	</footer>
+	
+	<script src="/webjars/jquery/2.1.4/jquery.js"></script>
+	<script src="/webjars/materializecss/0.96.0/js/materialize.js"></script>
+	<script>
+	$("#Logout").click(function(){
+	    $form=$("<form>").attr({"action":"${pageContext.request.contextPath}"+"/logout","method":"post"})
+	    .append($("<input>").attr({"type":"hidden","name":"${_csrf.parameterName}","value":"${_csrf.token}"})).apend($("</input>"))
+	    $("#Logout").append($form).append($("</form>"));
+	    $form.submit();
+	});
+	</script>
+	
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/default">
+
+<head layout:fragment="site-head">
+    <title>Users - list</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+</head>
+
+<body>
+
+<nav layout:fragment="site-nav"></nav>
+
+<main id="content" layout:fragment="content">
+<div class="container">
+	<section>
+	  <article>
+	  	<h2 class="title">Users - list</h2>
+	  	<table class="striped bordered responsive-table">
+	  		<tr>
+	  			<th>ID</th>
+	  			<th>Username</th>
+	  			<th>Full Name</th>
+	  			<th>Enabled</th>
+	  		</tr>
+	  		<th:block th:each="user : ${page.getContent()}">
+	  			<tr>
+	  				<td th:text="${user.id}" />
+	  				<td th:text="${user.username}" />
+	  				<td th:text="${user.fullName}" />
+	  				<td th:text="${user.enabled}" />
+	  			</tr>
+	  		</th:block>
+	  	</table>
+	  </article>
+	  
+	  <ul class="pagination indigo">
+			      <li th:class="${page.hasPreviousPage}? '' : 'disabled'">
+			        <a th:if='${page.hasPreviousPage}' th:href='@{${page.url}(page.page=${page.number-1},page.size=${page.size})}' title='Go to previous page'>
+			        	<i class="material-icons">chevron_left</i>
+			        </a>
+			      </li>
+			      <li th:each='item : ${page.items}' th:class="${item.current}? 'active' : 'waves-effect'">
+			        <span th:if='${item.current}' th:text='${item.number}'>1</span>
+			        <a th:if='${not item.current}' th:href='@{${page.url}(page.page=${item.number},page.size=${page.size})}'><span th:text='${item.number}'>1</span></a>
+			      </li>
+			      <li th:class="${page.hasNextPage}? '' : 'disabled'">
+			        <a th:if='${page.hasNextPage}' th:href='@{${page.url}(page.page=${page.number+1},page.size=${page.size})}' title='Go to next page'>
+			        	<i class="material-icons">chevron_right</i>
+			        </a>
+			      </li>
+		</ul>
+	  
+	</section>
+	</div>
+</main>
+
+<footer layout:fragment="site-footer"></footer>
+
+</body>
+
+</html>

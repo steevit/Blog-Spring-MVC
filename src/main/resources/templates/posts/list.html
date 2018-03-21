@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/default"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head layout:fragment="site-head">
+    <title>Posts - list</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+</head>
+
+<body>
+
+<nav layout:fragment="site-nav"></nav>
+
+<main id="content" layout:fragment="content">
+	<div class="container">
+	<section>
+	  <article>
+	  	<h2 class="title">Posts - list</h2>
+	  	<table class="striped bordered responsive-table">
+	  		<tr>
+	  			<th>ID</th>
+	  			<th>Title</th>
+	  			<th>Date</th>
+	  			<th>Author</th>
+	  			<th colspan="2" sec:authorize="hasRole('ADMIN')">Actions</th>
+	  		</tr>
+	  		<th:block th:each="post : ${page.getContent()}">
+	  			<tr>
+	  				<td th:text="${post.id}" />
+	  				<td th:text="${post.title}" />
+	  				<td th:text="${post.date}" />
+	  				<td th:text="${post.author.username}" />
+	  				<td sec:authorize="hasRole('ADMIN')"><a th:href='@{/posts/edit/} + ${post.id}'><i class="material-icons">edit</i></a></td>
+	  				<td sec:authorize="hasRole('ADMIN')"><a th:href='@{/posts/delete/} + ${post.id}'><i class="material-icons">delete</i></a></td>
+	  			</tr>
+	  		</th:block>
+	  	</table>
+	  </article>
+	  
+	  <ul class="pagination indigo">
+			      <li th:class="${page.hasPreviousPage}? '' : 'disabled'">
+			        <a th:if='${page.hasPreviousPage}' th:href='@{${page.url}(page.page=${page.number-1},page.size=${page.size})}' title='Go to previous page'>
+			        	<i class="material-icons">chevron_left</i>
+			        </a>
+			      </li>
+			      <li th:each='item : ${page.items}' th:class="${item.current}? 'active' : 'waves-effect'">
+			        <span th:if='${item.current}' th:text='${item.number}'>1</span>
+			        <a th:if='${not item.current}' th:href='@{${page.url}(page.page=${item.number},page.size=${page.size})}'><span th:text='${item.number}'>1</span></a>
+			      </li>
+			      <li th:class="${page.hasNextPage}? '' : 'disabled'">
+			        <a th:if='${page.hasNextPage}' th:href='@{${page.url}(page.page=${page.number+1},page.size=${page.size})}' title='Go to next page'>
+			        	<i class="material-icons">chevron_right</i>
+			        </a>
+			      </li>
+		</ul>
+	</section>
+	</div>
+</main>
+<footer layout:fragment="site-footer"></footer>
+
+</body>
+
+</html>

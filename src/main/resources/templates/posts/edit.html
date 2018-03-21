@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/default">
+
+<head layout:fragment="site-head">
+    <title th:text="${post.title}">View Post</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+</head>
+
+<body>
+
+<nav layout:fragment="site-nav"></nav>
+
+ <main id="content" layout:fragment="content" class="valign-wrapper">
+ 	<div class="container">
+	<section>
+	  <article>
+	  
+	  	<h2 th:text="'Edit Post #' + ${post.id}"></h2>
+	  
+	    <form action="#" id="postform" th:action="@{/posts/edit/} + ${post.id}" th:object="${post}" method="post">
+	    	
+	    		<input type="hidden" th:value="${post.getId()}" th:field="*{id}" />
+	    		<input type="hidden" th:value="${post.getAuthor()}" th:field="*{author}" />
+	    		
+	    	
+	    	<div style="margin-bottom: 25px" class="input-field">
+	    		<i class="material-icons prefix">title</i>
+		  		<input id="title" type="text" th:value="${post.getTitle()}" th:field="*{title}" class="validate" />
+		  		<label for="title">Title</label>
+		  	</div>
+		  		
+		  	<div style="margin-bottom: 25px" class="input-field">
+		  		<i class="material-icons prefix">textsms</i>
+		  		<textarea id="content" form="postform" th:value="${post.getBody()}" th:field="*{body}" class="materialize-textarea"/>
+		  		<label for="content">Content</label>
+		  	</div>
+		  		
+		  	<div style="margin-top: 10px" class="form-group">	
+		  		<div class="col-sm-6 controls">
+		  			<button type="submit" class="btn btn-success indigo">Edit</button>
+		  		</div>
+		  	</div>
+		  	
+		</form>
+	  </article>
+	</section>
+	</div>
+</main>
+
+<footer layout:fragment="site-footer"></footer>
+
+</body>
+
+</html>
