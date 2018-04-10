@@ -3,7 +3,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="layout/default">
 
-<head lang="en" layout:fragment="site-head">
+<head lang="pl" layout:fragment="site-head">
     <title>Spring MVC Blog</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 </head>
@@ -15,8 +15,8 @@
 <main layout:fragment="content">
 <div id="content" class="section no-pad-bot" >
 	<aside class="indigo white-text">
-		<h4>Recent Posts</h4>
-		<a href="#" th:each="p : ${latest5posts}" th:text="${p.title}" th:href="@{/posts/view/{id}/(id=${p.id})}">Work Begins on HTML5.1</a>
+		<h4 th:text="#{index.recent_posts}"></h4>
+		<a href="#" th:each="p : ${latest5posts}" th:text="${p.title}" th:href="@{/posts/view/{id}/(id=${p.id})}"></a>
 	</aside>
 	
 	<div class="container">
@@ -25,13 +25,13 @@
 	    
 	    <article th:each="p : ${page.getContent()}">
 	      <a th:href='@{/posts/view/{id}/(id=${p.id})}' class="title-link">
-	      	<h2 class="title">Post Title</h2>
+	      	<h2 class="title" th:text="${p.title}">Post Title</h2>
 	      </a>
 	      <div class="date">
-	        <i>Posted on</i>
+	        <i th:text="#{index.posted_on}">Posted on</i>
 	        <span th:text="${#dates.format(p.date, 'dd-MMM-yyyy')}">22-May-2016</span>
 	        <span th:if="${p.author}" th:remove="tag">
-	          <i>by</i>
+	          <i th:text="#{index.by}">by</i>
 	          <span th:text="${p.author.fullName != null ?
 	                        p.author.fullName : p.author.username}">Svetlin Nakov</span>
 	        </span>

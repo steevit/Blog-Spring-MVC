@@ -17,18 +17,18 @@
 	<section>
 	  <article>
 	  
-	  	<h2 style="padding-top: 10px;">Delete Post</h2>
+	  	<h2 style="padding-top: 10px;" th:text="#{posts.delete.delete_post}">Delete Post</h2>
 
 	    <div style="padding-top: 15px;">
-		    <h4 th:text="'Do you really want to delete post #' + ${post.id} + '?'" class="red white-text" style="padding: 5px;"></h4>
+		    <h4 th:text="#{posts.delete.confirmation(${post.id})}" class="red white-text" style="padding: 5px;"></h4>
 		    
 		    <div id="shadowed">
 			    <h4 class="title" th:text="${post.title}">Post Title</h4>
 			    <div class="date">
-			    <i>Posted on</i>
+			    <i th:text="#{index.posted_on}">Posted on</i>
 			    <span th:text="${#dates.format(post.date, 'dd-MMM-yyyy')}">22-May-2016</span>
 			        <span th:if="${post.author}" th:remove="tag">
-			        <i>by</i>
+			        <i th:text="#{index.by}">by</i>
 			        <span th:text="${post.author.fullName != null ?
 			                         post.author.fullName : post.author.username}">Svetlin Nakov</span>
 			        </span>
@@ -38,7 +38,7 @@
 		    
 		    <div class="center-align">
 			    <form method="post" th:action="@{/posts/delete/} + ${post.id}">
-			    	<button id="Delete" type="submit" class="waves-effect waves-light btn red">Delete</button>
+			    	<button id="Delete" type="submit" class="waves-effect waves-light btn red" th:text="#{posts.delete.delete}">Delete</button>
 			    </form>
 		    </div>
 	    </div>

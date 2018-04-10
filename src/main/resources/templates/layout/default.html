@@ -2,7 +2,7 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-<head th:fragment="site-head">
+<head lang="pl" th:fragment="site-head">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
 	<link href="/webjars/materializecss/0.96.0/css/materialize.css" type="text/css" rel="stylesheet"
@@ -12,28 +12,46 @@
 	<meta th:include="this :: head" th:remove="tag"/>
 </head>
 <body>
+	<ul id="lang-dropdown" class="dropdown-content">
+		<li><a href="?lang=pl">Polski</a></li>
+		<li><a href="?lang=en">Angielski</a></li>
+	</ul>
 	<nav th:fragment="site-nav" class="nav-wrapper indigo large">
 		<a href="index.html" class="left" th:href="@{/}"><img src="../public/img/logo.png" th:src="@{/img/logo.png}" width="100px" /></a>
 		<ul class="left hide-on-med-and-down">
-			<li><a href="index.html" th:href="@{/}">Home</a></li>
-			<li><a href="users/login.html" sec:authorize="!isAuthenticated()" th:href="@{/login}">Login</a></li>
-			<li><a href="posts/index.html" th:href="@{/posts/}">Posts</a></li>
-			<li><a href="posts/create.html" sec:authorize="hasRole('ADMIN')" th:href="@{/posts/create}">Create Post</a></li>
-			<li><a href="users/index.html" sec:authorize="hasRole('ADMIN')" th:href="@{/users/}">Users</a></li>
+			<li><a href="index.html" th:text="#{layout.home}" th:href="@{/}">Home</a></li>
+			<li><a href="posts/index.html" th:text="#{layout.posts}" th:href="@{/posts/}">Posts</a></li>
+			<li><a href="posts/create.html" th:text="#{layout.create_post}" sec:authorize="hasRole('ADMIN')" th:href="@{/posts/create}">Create Post</a></li>
+			<li><a href="users/index.html" th:text="#{layout.users}" sec:authorize="hasRole('ADMIN')" th:href="@{/users/}">Users</a></li>
 		</ul>
-		<div class="right hide-on-med-and-down" sec:authorize="isAuthenticated()"> 
-				<span>Hello, <b sec:authentication="name"></b></span>
+		
+		<ul class="right">
+			<li>
+				<a class="dropdown-button" href="#!" data-activates="lang-dropdown">
+				<i class="mdi-action-language right"></i></a>
+			</li>
+		</ul>
+		
+		
+		<ul class="right mr-1" sec:authorize="!isAuthenticated()">
+			<li>
+				<a href="users/login.html" th:text="#{layout.login}" sec:authorize="!isAuthenticated()" th:href="@{/login}">Login</a>
+			</li>
+		</ul>
+		
+		<div class="right hide-on-med-and-down mr-1" sec:authorize="isAuthenticated()"> 
+				<span th:text="#{layout.hello}"></span><b sec:authentication="name"></b>
 				<form th:action="@{/logout}" 
 							method="POST" style="display: inline-block">
 					<button id="Logout" class="btn waves-effect waves-light" type="submit" value="logout" name="logout">Logout
   					</button>
 				</form>
 		</div>
+		
 	</nav> 
 	
 	<main layout:fragment="content">
-		<h1>Welcome</h1>
-		<p>Welcome to the Spring MVC Blog.</p> 
+		<h1 th:text="#{layout.welcome}"></h1>
 	</main>
 	
 	<footer th:fragment="site-footer" id="footer" class="page-footer indigo white-text">
@@ -42,6 +60,9 @@
 	
 	<script src="/webjars/jquery/2.1.4/jquery.js"></script>
 	<script src="/webjars/materializecss/0.96.0/js/materialize.js"></script>
+	<script type="text/javascript">
+		$(".dropdown-button").dropdown();
+	</script>
 	<script>
 	$("#Logout").click(function(){
 	    $form=$("<form>").attr({"action":"${pageContext.request.contextPath}"+"/logout","method":"post"})

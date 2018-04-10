@@ -16,13 +16,13 @@
 <div class="container">
 	<section>
 	  <article>
-	  	<h2 class="title">Users - list</h2>
+	  	<h2 class="title" th:text="#{users.list.users_list}">Users - list</h2>
 	  	<table class="striped bordered responsive-table">
 	  		<tr>
 	  			<th>ID</th>
-	  			<th>Username</th>
-	  			<th>Full Name</th>
-	  			<th>Enabled</th>
+	  			<th th:text="#{users.list.username}">Username</th>
+	  			<th th:text="#{users.list.full_name}">Full Name</th>
+	  			<th th:text="#{users.list.enabled}">Enabled</th>
 	  		</tr>
 	  		<th:block th:each="user : ${page.getContent()}">
 	  			<tr>

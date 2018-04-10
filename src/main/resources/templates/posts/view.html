@@ -18,10 +18,10 @@
 	  <article>
 	    <h2 class="title" th:text="${post.title}">Post Title</h2>
 	    <div class="date">
-	    <i>Posted on</i>
+	    <i th:text="#{index.posted_on}">Posted on</i>
 	    <span th:text="${#dates.format(post.date, 'dd-MMM-yyyy')}">22-May-2016</span>
 	        <span th:if="${post.author}" th:remove="tag">
-	        <i>by</i>
+	        <i th:text="#{index.by}">by</i>
 	        <span th:text="${post.author.fullName != null ?
 	                         post.author.fullName : post.author.username}">Svetlin Nakov</span>
 	        </span>

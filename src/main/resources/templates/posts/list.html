@@ -17,14 +17,14 @@
 	<div class="container">
 	<section>
 	  <article>
-	  	<h2 class="title">Posts - list</h2>
+	  	<h2 class="title" th:text="#{posts.list.posts_list}">Posts - list</h2>
 	  	<table class="striped bordered responsive-table">
 	  		<tr>
 	  			<th>ID</th>
-	  			<th>Title</th>
-	  			<th>Date</th>
-	  			<th>Author</th>
-	  			<th colspan="2" sec:authorize="hasRole('ADMIN')">Actions</th>
+	  			<th th:text="#{posts.list.title}">Title</th>
+	  			<th th:text="#{posts.list.date}">Date</th>
+	  			<th th:text="#{posts.list.author}">Author</th>
+	  			<th colspan="2" sec:authorize="hasRole('ADMIN')" th:text="#{posts.list.actions}">Actions</th>
 	  		</tr>
 	  		<th:block th:each="post : ${page.getContent()}">
 	  			<tr>

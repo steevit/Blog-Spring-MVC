@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.session.SessionManagementFilter;
 
 import pl.steevit.blog.service.UserService;
 
@@ -34,9 +35,9 @@ public class ApiSecurityConfig extends WebSecurityConfigurerAdapter {
 			.csrf().disable()
 			.authorizeRequests()
 			.antMatchers(HttpMethod.GET).hasRole("USER")
-			.antMatchers(HttpMethod.POST).hasRole("ADMIN")
-			.antMatchers(HttpMethod.PUT).hasRole("ADMIN")
-			.antMatchers(HttpMethod.DELETE).hasRole("ADMIN")
+			.antMatchers(HttpMethod.POST).hasAnyRole()
+			.antMatchers(HttpMethod.PUT).hasRole("USER")
+			.antMatchers(HttpMethod.DELETE).hasRole("USER")
 			.anyRequest().authenticated()
 			.and()
 			.userDetailsService(userService);

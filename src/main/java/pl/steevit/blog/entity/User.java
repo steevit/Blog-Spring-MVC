@@ -13,9 +13,12 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "users")
 @NamedQuery(name = "User.findAll", query="select u from User u order by u.id desc")
+@JsonIgnoreProperties({"posts"})
 public class User {
 
 	@Id

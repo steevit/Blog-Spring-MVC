@@ -2,22 +2,26 @@ package pl.steevit.blog.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "user_roles")
+@JsonIgnoreProperties({"user"})
 public class UserRole{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer userRoleId;
 	
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@ManyToOne
+	@JoinColumn
 	private User user;
 	
 	@Column(nullable = false, length = 300)

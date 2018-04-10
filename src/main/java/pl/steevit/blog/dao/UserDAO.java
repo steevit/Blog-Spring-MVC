@@ -13,9 +13,6 @@ import pl.steevit.blog.entity.User;
 @Repository
 public interface UserDAO extends JpaRepository<User, Long>, UserFinder {
 	
-	//@Query("SELECT u FROM User u LEFT JOIN u.author ORDER BY p.date DESC")	
-	//Page<Post> findPosts(Pageable pageable);
-	
 	@Override
     @Query
     public List<User> findAll();
